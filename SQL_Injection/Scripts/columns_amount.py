@@ -59,7 +59,7 @@ class Columns:
         tmp_val = self.__amount//2
         while True:
             status_code = self.make_request(self.encode_url(self.__amount))
-            print(f"Status code: {status_code}\nAmount: {self.__amount}\nTmp_val: {tmp_val}\n")
+            # print(f"Status code: {status_code}\nAmount: {self.__amount}\nTmp_val: {tmp_val}\n")
             if status_code != 200:
                 tmp_val = 1 if tmp_val//2 == 0 else tmp_val//2
                 self.__amount -= tmp_val
