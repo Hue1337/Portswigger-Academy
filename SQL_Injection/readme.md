@@ -230,4 +230,9 @@
 
 # Lab: Blind SQL injection with conditional responses
 
-1. 
+1. **Vulnerable parameter:** `category=`
+
+2. **Payload:**
+```sql
+' 
+```
