@@ -228,11 +228,3 @@
     - administrator
     - iyss16ett8k3ts7ugtut
 
-# Lab: Blind SQL injection with conditional responses
-
-1. **Vulnerable parameter:** `category=`
-
-2. **Payload:**
-```sql
-' 
-```
