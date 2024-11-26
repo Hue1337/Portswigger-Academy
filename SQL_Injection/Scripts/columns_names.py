@@ -19,6 +19,7 @@ class ColumnsNames:
         self.run()
 
     def run(self):
+        # Not finished
         pass
 
     def configure_payload(self):

